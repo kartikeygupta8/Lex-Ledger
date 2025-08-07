@@ -277,7 +277,7 @@ const SubscriptionModel = () => {
                         boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
                       },
                       overflow:"visible",
-                      width:"300px"
+                      width:"300px",
                       // maxWidth:"450px"
                     }}
                     onClick={() => handlePlanSelection(plan.id)}

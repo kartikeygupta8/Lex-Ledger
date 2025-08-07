@@ -25,8 +25,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Left Side Logo */}
           <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-2 text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-              <img src="/logo.png" alt="Lex&Ledger Logo" className="h-10 w-auto" />
+            <Link to="/" className="logo flex items-center gap-2 text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+              {/* <img src="/logo.png" alt="Lex&Ledger Logo" className="h-10 w-auto" /> */}
               Lex&Ledger
             </Link>
           </div>

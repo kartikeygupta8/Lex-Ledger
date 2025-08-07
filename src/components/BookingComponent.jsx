@@ -184,7 +184,7 @@ const BookingComponent = ({
           </div>
         </div>
       </header> */}
-<ServiceDetailPage selectedService={selectedService}/>
+{selectedService?<ServiceDetailPage serviceData={selectedService}/>:
       <div className="max-w-4xl mx-auto px-6 py-12">
         {bookingStep < 4 && renderProgressBar()}
         {bookingStep === 1 && (
@@ -299,7 +299,6 @@ const BookingComponent = ({
                   </CardContent>
                 </Card>
                 </div>
-                  {/* Documents Required */}
                   {selectedService.documents?.length > 0 && (
                     <div>
                       <Card className="border border-gray-100 !gap-2">
@@ -478,7 +477,7 @@ const BookingComponent = ({
             </Button>
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

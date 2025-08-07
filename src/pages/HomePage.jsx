@@ -100,7 +100,10 @@ const HomePage = () => {
   const handleGetStarted = () => {
     navigate("/services");
   };
-
+   
+  const handleBundleSelect = (category) => {
+    navigate(`/bundles/${category.id}`);
+  };
   const handleContactSubmit = (formData) => {
     console.log("Contact form submitted:", formData);
     // Handle form submission logic here

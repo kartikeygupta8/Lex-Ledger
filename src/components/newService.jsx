@@ -1,98 +1,316 @@
-import React from "react";
 
-export const ServiceDetailPage = ({selectedService}) => {
-  const { name, price, duration, description, documents } = selectedService;
+import { useState } from 'react'
+import '../App'
+
+export function ServiceDetailPage({serviceData}) {
+  const [activeAccordion, setActiveAccordion] = useState(null)
+console.log({serviceData})
+ const parsePrice = (priceStr) => {
+  const match = priceStr.match(/₹([\d,]+)/);
+  if (!match) return null;
+  return parseInt(match[1].replace(/,/g, ""), 10);
+};
+const originalPriceStr = serviceData.price; 
+const originalPrice = parsePrice(originalPriceStr); 
+const discountAmount = Math.round(originalPrice * 0.24); 
+const finalPrice = originalPrice - discountAmount;
+
+const formatRupees = (amount) =>
+  "₹" + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+const suffix = originalPriceStr.includes("/month") ? "/month" : "";
+
+  const keyFeatures = [
+    {
+      number: 1,
+      title: "Name Reservation",
+      description: "Secure your preferred company name with official reservation"
+    },
+    {
+      number: 2,
+      title: "Legal Documentation",
+      description: "Complete preparation of MOA, AOA, and other legal documents"
+    },
+    {
+      number: 3,
+      title: "Government Filing",
+      description: "Submit applications to ROC and handle all government procedures"
+    },
+    {
+      number: 4,
+      title: "Certificate Delivery",
+      description: "Receive your Certificate of Incorporation and other documents"
+    }
+  ]
+
+  const processSteps = [
+    {
+      number: 1,
+      title: "Initial Consultation",
+      description: "Discuss your business requirements and choose the right company structure (Private Limited, LLP, etc.)"
+    },
+    {
+      number: 2,
+      title: "Name Approval",
+      description: "Submit name application to MCA and get approval for your preferred company name"
+    },
+    {
+      number: 3,
+      title: "Document Preparation",
+      description: "Prepare and draft all required legal documents including MOA, AOA, and board resolutions"
+    },
+    {
+      number: 4,
+      title: "Digital Signature",
+      description: "Obtain Digital Signature Certificate (DSC) for directors and complete DIN applications"
+    },
+    {
+      number: 5,
+      title: "Government Filing",
+      description: "File incorporation documents with ROC and track application status"
+    },
+    {
+      number: 6,
+      title: "Certificate & Compliance",
+      description: "Receive Certificate of Incorporation and set up initial compliance requirements"
+    }
+  ]
+
+  const timeline = [
+    {
+      number: 1,
+      title: "Name Reservation",
+      duration: "1-2 business days"
+    },
+    {
+      number: 2,
+      title: "Document Preparation",
+      duration: "2-3 business days"
+    },
+    {
+      number: 3,
+      title: "DSC & DIN Processing",
+      duration: "3-5 business days"
+    },
+    {
+      number: 4,
+      title: "Government Filing & Approval",
+      duration: "7-10 business days"
+    },
+    {
+      number: "✓",
+      title: "Total Duration",
+      duration: "15-20 business days"
+    }
+  ]
+
+  const eligibilityItems = [
+    "Indian Citizens: Any Indian citizen above 18 years of age can be a director",
+    "Foreign Nationals: Foreign citizens can be directors with proper documentation",
+    "Minimum Directors: At least 2 directors required for Private Limited Company",
+    "Minimum Shareholders: At least 2 shareholders required (can be same as directors)",
+    "Minimum Capital: No minimum paid-up capital requirement",
+    "Registered Office: Must have a registered office address in India",
+    "Business Activity: Must have a legitimate business purpose and activity"
+  ]
+
+  const faqItems = [
+    {
+      question: "What is the difference between Private Limited and Public Limited Company?",
+      answer: "A Private Limited Company has restrictions on share transfer and cannot invite public to subscribe to its shares. It requires minimum 2 and maximum 200 shareholders. A Public Limited Company can invite public to subscribe to its shares and has no restriction on share transfer, requiring minimum 7 shareholders."
+    },
+    {
+      question: "Can I start a company with just one director?",
+      answer: "No, a Private Limited Company requires minimum 2 directors. However, you can start a One Person Company (OPC) with just one director, which is a special category under the Companies Act."
+    },
+    {
+      question: "What happens if my company name is rejected?",
+      answer: "If your preferred name is rejected, we will suggest alternative names and help you choose a suitable one. We typically suggest 3-4 alternative names during the initial consultation to avoid delays."
+    }
+  ]
+
+  const toggleAccordion = (index) => {
+    setActiveAccordion(activeAccordion === index ? null : index)
+  }
 
   return (
-    <div className="font-poppins">
- 
+    <div style={{ minHeight: '100vh' }}>
+      {/* Header */}
+    
 
-      {/* Page Intro */}
-      <section className="bg-gray-100 py-10 text-center px-4">
-        <h2 className="text-3xl font-semibold text-gray-800">{name}</h2>
-        <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
-          {description}
-        </p>
-      </section>
+      {/* Main Container */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2.5rem 2rem' }}>
+        {/* Page Header */}
+        <div className="page-header">
+          <h1 className="page-title">{serviceData.categoryTitle||serviceData.name||""}</h1>
+          <p className="page-subtitle">Complete business formation and compliance solutions to get your company legally established</p>
+        </div>
 
-      {/* Overview */}
-      <section id="overview" className="max-w-6xl mx-auto py-12 px-4">
-        <h3 className="text-xl font-semibold text-blue-600 mb-4">Service Overview</h3>
-        <p className="text-gray-700 leading-relaxed">
-          Our comprehensive company formation service helps you establish your business legally and efficiently. We handle all the paperwork, regulatory compliance, and legal requirements to get your company up and running quickly.
-        </p>
-      </section>
+        {/* Service Overview */}
+        <section id="overview" className="service-card">
+          <h2 className="service-title">
+            🏢 {serviceData.name}
+          </h2>
+          
+          <div className="service-summary">
+            <p>{serviceData.description} Our comprehensive company formation service helps you establish your business legally and efficiently. We handle all the paperwork, regulatory compliance, and legal requirements to get your company up and running quickly. From choosing the right business structure to obtaining necessary licenses, we provide end-to-end support for your business formation needs.</p>
+          </div>
 
-      {/* Process Steps (Key Features) */}
-      <section id="process" className="bg-white py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-xl font-semibold text-blue-600 mb-6">Our Process</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              "Initial Consultation",
-              "Name Approval",
-              "Document Preparation",
-              "Digital Signature",
-              "Government Filing",
-              "Certificate & Compliance",
-            ].map((title, i) => (
-              <div key={i} className="p-6 border rounded-lg shadow hover:shadow-lg transition">
-                <div className="text-blue-600 font-bold text-2xl mb-2">Step {i + 1}</div>
-                <div className="font-medium text-gray-700">{title}</div>
+          {/* Key Features */}
+          <div className="section">
+            <h3 className="section-title">
+              ⭐ Key Features
+            </h3>
+            <div className="section-content">
+              <div className="key-features-grid">
+                {keyFeatures.map((feature, index) => (
+                  <div key={index} className="process-step">
+                    <div className="step-number">{feature.number}</div>
+                    <div className="step-content">
+                      <div className="step-title">{feature.title}</div>
+                      <div className="step-description">{feature.description}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process */}
+        <section className="section">
+          <h3 className="section-title">
+            ⚙️ Our Process
+          </h3>
+          <div className="section-content">
+            <div className="process-steps">
+              {processSteps.map((step, index) => (
+                <div key={index} className="process-step">
+                  <div className="step-number">{step.number}</div>
+                  <div className="step-content">
+                    <div className="step-title">{step.title}</div>
+                    <div className="step-description">{step.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Timeline */}
+        <section id="timeline" className="section">
+          <h3 className="section-title">
+            🕐 Service Timeline
+          </h3>
+          <div className="section-content">
+            {timeline.map((item, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-icon">{item.number}</div>
+                <div className="timeline-content">
+                  <div className="timeline-title">{item.title}</div>
+                  <div className="timeline-duration">{item.duration}</div>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Timeline */}
-      <section id="timeline" className="bg-gray-50 py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-xl font-semibold text-blue-600 mb-6">Service Timeline</h3>
-          <ul className="space-y-4">
-            {[
-              { step: "Name Reservation", days: "1-2 business days" },
-              { step: "Document Preparation", days: "2-3 business days" },
-              { step: "DSC & DIN Processing", days: "3-5 business days" },
-              { step: "Government Filing & Approval", days: "7-10 business days" },
-              { step: "Total Duration", days: "15-20 business days" },
-            ].map((item, i) => (
-              <li key={i} className="flex items-center justify-between bg-white p-4 shadow rounded-md">
-                <span className="font-medium">{item.step}</span>
-                <span className="text-gray-600">{item.days}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        {/* Documents Required */}
+        <section id="documents" className="section">
+          <h3 className="section-title">
+            📄 Documents Required
+          </h3>
+          <div className="section-content">
+            <div className="documents-list">
+              {serviceData.documents.map((doc, index) => (
+                <div key={index} className="document-item">
+                  <div className="document-icon">📋</div>
+                  <strong style={{ display: 'block', marginBottom: '0.2rem', color: '#333', fontSize: '0.95rem' }}>{doc}</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      {/* Documents */}
-      <section id="documents" className="py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-xl font-semibold text-blue-600 mb-6">Documents Required</h3>
-          <ul className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {documents.map((doc, i) => (
-              <li
-                key={i}
-                className="p-4 bg-white border rounded-md text-gray-700 shadow hover:shadow-md"
-              >
-                <i className="fas fa-file-alt text-blue-500 mr-2"></i> {doc}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        {/* Eligibility */}
+        <section id="eligibility" className="section">
+          <h3 className="section-title">
+            ✅ Who Can Apply
+          </h3>
+          <div className="section-content">
+            <ul className="eligibility-list">
+              {eligibilityItems.map((item, index) => (
+                <li key={index} className="eligibility-item">
+                  <span className="check-icon">✓</span>
+                  <strong>{item.split(':')[0]}:</strong> {item.split(':')[1]}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
-      {/* Pricing */}
-      <section className="bg-gradient-to-r from-blue-50 to-purple-50 py-12 text-center">
-        <h3 className="text-2xl font-semibold text-blue-700">Service Pricing</h3>
-        <div className="mt-4 text-3xl font-bold text-green-600 line-through">{price}</div>
-        <div className="text-4xl text-black font-extrabold mt-2">₹12,000</div>
-        <div className="text-sm text-gray-500 mt-1">Includes govt. fees, docs & charges</div>
-        <button className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          Get Started Now
-        </button>
-      </section>
+        {/* Pricing */}
+  <section className="mb-8">
+  <div className="text-white rounded-xl p-8 text-center relative overflow-hidden shadow-lg transition-transform hover:scale-[1.02] duration-300" style={{ backgroundColor: '#155dfc' }}>
+    
+    {/* Sparkle animation */}
+    <div className="absolute top-0 right-0 animate-pulse text-yellow-300 p-4 text-xl">✨</div>
+    
+    <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center animate-fadeIn">
+      💰 <span className="ml-2">Bundle Pricing</span>
+    </h3>
+    
+    <div className="mb-4 transition-all duration-500">
+      <span className="text-3xl line-through text-blue-200 mr-4">{formatRupees(originalPrice) + suffix}</span>
+      <span className="text-5xl font-bold text-white animate-bounce"> {formatRupees(finalPrice) + suffix}</span>
     </div>
-  );
-};
+    
+    <div className="bg-blue-600 text-white px-4 py-2 rounded-full inline-block mb-4 shadow-md animate-pulse">
+          Save {formatRupees(discountAmount)} (24% Off)
+
+
+    </div>
+    
+    <p className="text-blue-100 mb-6 transition-opacity duration-300 hover:opacity-90">
+      Includes all services, government fees, documentation, and professional charges
+    </p>
+    
+    <button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:scale-105 animate-fadeIn">
+      Select This Bundle
+    </button>
+  </div>
+</section>
+
+
+        {/* FAQ */}
+        <section id="faq" className="section">
+          <h3 className="section-title">
+            ❓ Frequently Asked Questions
+          </h3>
+          <div className="section-content">
+            {faqItems.map((item, index) => (
+              <div key={index} className="faq-item">
+                <div 
+                  className="faq-question"
+                  onClick={() => toggleAccordion(index)}
+                >
+                  <span>{item.question}</span>
+                  <span className={`faq-toggle ${activeAccordion === index ? 'active' : ''}`}>
+                    {activeAccordion === index ? '▲' : '▼'}
+                  </span>
+                </div>
+                {activeAccordion === index && (
+                  <div className="faq-answer">
+                    {item.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  )
+}
+
+

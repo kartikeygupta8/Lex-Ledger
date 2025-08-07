@@ -101,9 +101,9 @@ const BankDetails = () => {
     }
 
     // Bank name validation
-    if (!formData.bankName.trim()) {
-      newErrors.bankName = 'Bank name is required';
-    }
+    // if (!formData.bankName.trim()) {
+    //   newErrors.bankName = 'Bank name is required';
+    // }
 
     // Account number validation
     if (!formData.accountNumber) {
@@ -130,19 +130,19 @@ const BankDetails = () => {
     }
 
     // Bank type validation
-    if (!formData.bankType) {
-      newErrors.bankType = 'Please select bank type';
-    }
+    // if (!formData.bankType) {
+    //   newErrors.bankType = 'Please select bank type';
+    // }
 
     // Branch name validation
-    if (!formData.branchName.trim()) {
-      newErrors.branchName = 'Branch name is required';
-    }
+    // if (!formData.branchName.trim()) {
+    //   newErrors.branchName = 'Branch name is required';
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+console.log({errors})
   const handleVerifyBank = async () => {
     if (!formData.ifscCode || !formData.accountNumber) {
       return;
@@ -183,10 +183,10 @@ const BankDetails = () => {
       return;
     }
 
-    if (!bankVerified) {
-      setErrors({ general: 'Please verify your bank details first' });
-      return;
-    }
+    // if (!bankVerified) {
+    //   setErrors({ general: 'Please verify your bank details first' });
+    //   return;
+    // }
 
     setLoading(true);
     
@@ -429,7 +429,7 @@ const BankDetails = () => {
                     type="submit"
                     variant="contained"
                     size="large"
-                    disabled={loading || !bankVerified}
+                    disabled={loading}
                     sx={{ minWidth: 200 }}
                   >
                     {loading ? 'Processing...' : 'Continue to Payment'}

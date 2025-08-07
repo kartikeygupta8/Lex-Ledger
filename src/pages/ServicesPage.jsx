@@ -53,7 +53,7 @@ const [manuallyToggled, setManuallyToggled] = useState(false);
   const handleCategoryClick = (categoryId) => {
     if (categoryId === "immediate") {
       navigate(`/immediate-service`);
-      setBookingStep(3);
+      // setBookingStep(3);
       return;
     }
      navigate(`/services/${categoryId}`);

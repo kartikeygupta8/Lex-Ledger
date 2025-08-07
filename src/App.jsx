@@ -42,6 +42,7 @@ import MyChatBot from "./components/Mychatbot.jsx";
 import { StepperProvider, useStepperContext } from "./components/stepper.jsx";
 import { Box, Container } from "@mui/material";
 import RegistrationStepper from "./components/registrationWrapper.jsx";
+import BundleService from "./components/BundleService.jsx";
 
 // Layout component to handle navbar and footer
 const Layout = ({ children }) => {
@@ -113,6 +114,7 @@ function App() {
               {/* Service Routes */}
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/services/:categoryId" element={<ServiceDetail />} />
+              <Route path="/bundles/:categoryId" element={<BundleService />} />
 
               {/* Immediate Service */}
               <Route path="/immediate-service" element={<ImmediateService />} />
