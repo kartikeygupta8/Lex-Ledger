@@ -98,7 +98,7 @@ const HomePage = () => {
   };
 
   const handleGetStarted = () => {
-    navigate("/services");
+    navigate("/getStarted");
   };
    
   const handleBundleSelect = (category) => {
