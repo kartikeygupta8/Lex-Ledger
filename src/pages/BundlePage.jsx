@@ -3,8 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.j
 import { Button } from '@/components/ui/button.jsx';
 import { Badge } from '@/components/ui/badge.jsx';
 import { Check, Star, Clock, Users, Shield } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const BundlePage = () => {
+  const navigate=useNavigate();
   const bundles = [
     {
       id: 1,
@@ -216,9 +218,10 @@ const BundlePage = () => {
           {bundles.map((bundle) => (
             <Card 
               key={bundle.id} 
-              className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl ${
+              className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl cursor-pointer ${
                 bundle.popular ? 'ring-2 ring-blue-500 shadow-lg' : 'hover:shadow-lg'
               }`}
+              onClick={()=>navigate(`/bundles/${bundle.id}`)}
             >
               {bundle.popular && (
                 <div className="absolute top-0 right-0 bg-blue-500 text-white px-3 py-1 text-sm font-semibold rounded-bl-lg">

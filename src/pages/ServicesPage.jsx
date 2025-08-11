@@ -175,8 +175,8 @@ useEffect(() => {
 
         {/* All Services List */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
+          <div className="flex items-center justify-between my-6">
+            <h2 className="text-2xl font-bold text-gray-900 y-2">
               All Services ({filteredServices.length})
             </h2>
             {searchTerm && (

@@ -515,12 +515,13 @@ console.log({form},"===================form")
       message: "Great choice! Here are the Startup & Regulatory services. Click on any service to get started:",
       component: (params) => {
         const selectedCategory = serviceCategories.find(cat => cat.title === "Startup & Regulatory");
+        console.log({params})
         return (
           <div style={{ marginTop: 10, marginLeft: 20, maxWidth: 300 }}>
             {selectedCategory?.services.map((service, index) => (
               <div key={service.id} style={{ marginBottom: 8 }}>
                 <a
-                                  href={`/getStarted/${selectedCategory.id}`}
+                                  // href={`/getStarted/${selectedCategory.id}`}
 
                   target="_blank"
                   rel="noopener noreferrer"
@@ -609,7 +610,16 @@ console.log({form},"===================form")
     }
   };
 
-  return <ChatBot flow={flow} />;
+  return <ChatBot flow={flow}     settings={{
+      // general: {
+      //   embedded: true
+      // },
+      header: {
+        title: "Lex&Ledger Assistant",
+        showAvatar: true
+      }
+    }}
+/>;
 };
 
 export default MyChatBot;

@@ -254,7 +254,6 @@ console.log({selectedService})
 
                         <p>Service Summary</p>
                         </div>
-                        <p className="text-blue-500 text-[12px] cursor-pointer" onClick={()=>navigate(`/service-detail/${selectedService.id}/${routeCategoryId}`)}>go to Service Detail</p>
 
                       </div>
                     </CardTitle>
@@ -279,9 +278,17 @@ console.log({selectedService})
                       </Badge>
                     </div>
                     <div className="pt-4 border-t border-gray-100">
+                    <div className="flex items-center justify-between">
                       <h4 className="font-medium text-gray-900 mb-2">
                         What's Included:
                       </h4>
+                       <Button
+                                        onClick={()=>navigate(`/service-detail/${selectedService.id}/${routeCategoryId}`)}
+                                        className="bg-blue-600 cursor-pointer hover:bg-blue-700 px-2 py-1 rounded-sm font-bold shadow-lg transition-transform hover:scale-105"
+                                      >
+                                        Go to Service Detail
+                                      </Button>
+                                        </div>
                       <ul className="space-y-1 text-sm text-gray-600">
                         <li className="flex items-center">
                           <Check className="w-4 h-4 text-green-600 mr-2" />
@@ -300,7 +307,9 @@ console.log({selectedService})
                           Compliance guidance
                         </li>
                       </ul>
-                    </div>
+                  
+                     
+                                      </div>
                   </CardContent>
                 </Card>
                 </div>

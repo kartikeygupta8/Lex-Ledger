@@ -134,6 +134,7 @@
   transition: transform 0.2s ease, background-color 0.2s ease;
   border: none;
   cursor: pointer;
+  z-index: 9;
 }
 
 .emergency-button:hover {
