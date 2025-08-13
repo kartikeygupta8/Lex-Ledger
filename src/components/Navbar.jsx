@@ -7,6 +7,11 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isDashboardRoute = location.pathname.startsWith("/dashboard");
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+useEffect(() => {
+  setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+}, [location.pathname]);
 
   const handleGetStarted = () => {
     sessionStorage.removeItem("serviceId");
@@ -14,10 +19,13 @@ const Navbar = () => {
     sessionStorage.removeItem("bookingStep");
   };
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-    navigate("/");
-  };
+
+const handleLogout = () => {
+  sessionStorage.clear();
+  localStorage.removeItem("isLoggedIn");
+  setIsLoggedIn(false);
+  navigate("/");
+};
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40">
@@ -33,7 +41,10 @@ const Navbar = () => {
           to="/"
           className="logo flex items-center gap-2 text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
         >
-          Lex&Ledger
+             {!isDashboardRoute&&!isLoggedIn
+      ? "Lex&Ledger"
+      : "Lex&Ledger | Admin Portal"}
+
         </Link>
       </div>
 
@@ -101,17 +112,27 @@ const Navbar = () => {
         >
           Immediate – 10 min
         </Link>
+{!isDashboardRoute ? (
+  isLoggedIn ? (
+    <Button
+      onClick={handleLogout}
+      className="bg-red-600 text-white hover:bg-red-700 px-6 py-1 rounded-full font-bold shadow-lg transition-transform hover:scale-105"
+    >
+      Logout
+    </Button>
+  ) : (
+    <AuthDropdown />
+  )
+) : (
+  <Button
+    onClick={handleLogout}
+    className="bg-red-600 text-white hover:bg-red-700 px-6 py-1 rounded-full font-bold shadow-lg transition-transform hover:scale-105"
+  >
+    Logout
+  </Button>
+)}
 
-        {!isDashboardRoute ? (
-          <AuthDropdown />
-        ) : (
-          <Button
-            onClick={handleLogout}
-            className="bg-red-600 text-white hover:bg-red-700 px-6 py-1 rounded-full font-bold shadow-lg transition-transform hover:scale-105"
-          >
-            Logout
-          </Button>
-        )}
+      
       </div>
     </div>
   </div>

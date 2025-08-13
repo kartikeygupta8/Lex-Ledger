@@ -908,7 +908,7 @@ const AdminPanel = ({ onBackToHome }) => {
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200">
+        {/* <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <LayoutDashboard className="w-5 h-5 text-white" />
@@ -918,7 +918,7 @@ const AdminPanel = ({ onBackToHome }) => {
               <p className="text-xs text-gray-500">Lex&Ledger</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Navigation */}
         <nav className="flex-1 p-4">

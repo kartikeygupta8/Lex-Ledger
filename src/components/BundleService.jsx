@@ -302,10 +302,10 @@ function BundleService() {
                   `}
                 >
                   {/* Card */}
-                  <div className={`relative p-8 rounded-2xl border-2 transition-all duration-500 h-full
+                  <div className={`relative p-8 rounded-2xl border-2  h-full
                     ${isSelected
-                      ? 'border-blue-300 bg-white shadow-2xl ring-4 ring-blue-500/20'
-                      : 'border-gray-200 bg-white/80 backdrop-blur-sm hover:border-blue-300 hover:shadow-xl hover:bg-white'}
+                      ? 'border-blue-300 bg-white/80 shadow-2xl ring-4 ring-blue-500/20'
+                      : 'border-blue-300 bg-white/80 backdrop-blur-sm hover:border-blue-300 hover:shadow-xl hover:bg-white'}
                   `}>
                     
                     {/* Popular Badge */}

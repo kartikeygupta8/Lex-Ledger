@@ -44,6 +44,9 @@ import { Box, Container } from "@mui/material";
 import RegistrationStepper from "./components/registrationWrapper.jsx";
 import BundleService from "./components/BundleService.jsx";
 import { ServiceDetailPage } from "./components/newService.jsx";
+import DocWithComments from "./components/doc.jsx";
+import ExcelCommentsUploader from "./components/ExcelCommentsUploader.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 // Layout component to handle navbar and footer
 const Layout = ({ children }) => {
@@ -103,7 +106,15 @@ function App() {
               <Route path="/old" element={<Old />} />
               <Route path="/about" element={<About />} />
               <Route path="/expert" element={<ExpertRegistration />} />
-              <Route path="/dashboard" element={<AdminPanel />} />
+                      <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
+
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/otp" element={<OTPVerification />} />
@@ -111,6 +122,8 @@ function App() {
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/refund" element={<Refund />} />
+              <Route path="/doc" element={<ExcelCommentsUploader />} />
+
 
               {/* Service Routes */}
               <Route path="/services" element={<ServicesPage />} />
