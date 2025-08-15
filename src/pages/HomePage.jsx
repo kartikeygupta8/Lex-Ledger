@@ -49,6 +49,9 @@ import {
   ArrowRight,
   Phone,
   Check,
+  Plus,
+  Minus,
+  X,
 } from "lucide-react";
 import ServicesSlider from "@/serviceCategory.jsx";
 import {
@@ -90,8 +93,235 @@ const founders = [
   },
 ];
 
+// Booking Modal Component
+const BookingModal = ({ isOpen, onClose }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    date: "",
+    time: "",
+    service: "",
+    message: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Booking submitted:", formData);
+    alert("Your booking request has been submitted! We will contact you soon to confirm.");
+    onClose();
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      date: "",
+      time: "",
+      service: "",
+      message: "",
+    });
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Book a Call</h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your full name"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your email"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your phone number"
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Preferred Date *
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleInputChange}
+                  required
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Preferred Time *
+                </label>
+                <select
+                  name="time"
+                  value={formData.time}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Select time</option>
+                  <option value="09:00">09:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="14:00">02:00 PM</option>
+                  <option value="15:00">03:00 PM</option>
+                  <option value="16:00">04:00 PM</option>
+                  <option value="17:00">05:00 PM</option>
+                </select>
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Service Required
+              </label>
+              <select
+                name="service"
+                value={formData.service}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">Select a service</option>
+                <option value="company-formation">Company Formation</option>
+                <option value="tax-services">Tax Services</option>
+                <option value="legal-consultation">Legal Consultation</option>
+                <option value="compliance">Compliance Services</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Additional Message
+              </label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Tell us more about your requirements..."
+              />
+            </div>
+            
+            <div className="flex gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onClose}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              >
+                Book Call
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// FAQ Item Component with Toggle
+const FAQItem = ({ faq, index }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Card className="border border-gray-200 py-3">
+      <CardContent className="p-0">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full p-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+        >
+          <h3 className="text-lg font-semibold text-gray-900 pr-4">
+            {faq.question}
+          </h3>
+          <div className="flex-shrink-0">
+            {isOpen ? (
+              <Minus className="h-5 w-5 text-blue-600 cursor-pointer" />
+            ) : (
+              <Plus className="h-5 w-5 text-blue-600 cursor-pointer" />
+            )}
+          </div>
+        </button>
+        {isOpen && (
+          <div className="px-3 pb-6">
+            <p className="text-gray-600">{faq.answer}</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
 const HomePage = () => {
   const navigate = useNavigate();
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const handleCategorySelect = (category) => {
     navigate(`/services/${category.id}`);
@@ -104,10 +334,19 @@ const HomePage = () => {
   const handleBundleSelect = (category) => {
     navigate(`/bundles/${category.id}`);
   };
+  
   const handleContactSubmit = (formData) => {
     console.log("Contact form submitted:", formData);
     // Handle form submission logic here
     alert("Thank you for your message! We will get back to you soon.");
+  };
+
+  const openBookingModal = () => {
+    setIsBookingModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false);
   };
 
   return (
@@ -141,11 +380,11 @@ const HomePage = () => {
                 </Button>
                 <Button
                   size="lg"
-                  variant="outline"
-                  className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg"
+                  onClick={openBookingModal}
+                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
                 >
-                  <PlayCircle className="mr-2 h-5 w-5" />
-                  Watch Demo
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book Now
                 </Button>
               </div>
             </div>
@@ -533,7 +772,7 @@ const HomePage = () => {
       <section id="blog" className="py-24">
         <EnhancedBlogPage />
       </section>
-      {/* FAQ Section */}
+      {/* FAQ Section with Toggle Functionality */}
       <section className="py-24 bg-gradient-to-r from-gray-50 to-blue-50">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -547,14 +786,7 @@ const HomePage = () => {
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <Card key={index} className="border border-gray-200">
-                <CardContent className="">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {faq.question}
-                  </h3>
-                  <p className="text-gray-600">{faq.answer}</p>
-                </CardContent>
-              </Card>
+              <FAQItem key={index} faq={faq} index={index} />
             ))}
           </div>
         </div>
@@ -564,8 +796,12 @@ const HomePage = () => {
 
       {/* Contact Form */}
       <ContactForm onSubmit={handleContactSubmit} />
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={isBookingModalOpen} onClose={closeBookingModal} />
     </div>
   );
 };
 
 export default HomePage;
+

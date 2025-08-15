@@ -270,6 +270,7 @@ const ServiceDetail = () => {
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  console.log({categoryId},"categoryIdcategoryIdcategoryId")
  React.useEffect(() => {
     window.scrollTo(0, 0); 
   }, []);

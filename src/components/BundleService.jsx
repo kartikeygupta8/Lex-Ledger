@@ -298,13 +298,13 @@ function BundleService() {
                   key={bundle.id}
                   onClick={() => setSelectedBundle(bundle.id)}
                   className={`relative cursor-pointer group transition-all duration-500 transform hover:-translate-y-2
-                    ${isSelected ? 'scale-105 z-20' : 'hover:scale-102'}
+                   hover:scale-102
                   `}
                 >
                   {/* Card */}
                   <div className={`relative p-8 rounded-2xl border-2  h-full
-                    ${isSelected
-                      ? 'border-blue-300 bg-white/80 shadow-2xl ring-4 ring-blue-500/20'
+                    ${false
+                      ? 'border-blue-300 bg-white/80 shadow-2xl '
                       : 'border-blue-300 bg-white/80 backdrop-blur-sm hover:border-blue-300 hover:shadow-xl hover:bg-white'}
                   `}>
                     
@@ -384,17 +384,17 @@ function BundleService() {
                     </div>
                     
                     {/* Hover Overlay */}
-                    <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none
+                    {/* <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none
                       ${isSelected 
                         ? 'bg-gradient-to-br from-blue-500/5 to-purple-500/5' 
                         : 'bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5'}
-                    `}></div>
+                    `}></div> */}
                   </div>
                   
                   {/* Glow Effect for Selected */}
-                  {isSelected && (
+                  {/* {isSelected && (
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-20 blur-xl -z-10 animate-pulse"></div>
-                  )}
+                  )} */}
                 </div>
               )
             }}
