@@ -18,6 +18,7 @@ import BlogDetail from "./pages/BlogDetail.jsx";
 import "./App.css";
 import Old from "./pages/old.jsx";
 import BundlePage from "./pages/BundlePage.jsx";
+import BundleDetail from "./pages/BundleDetail.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import BookingStepper from "./pages/BookingStepper.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
@@ -139,6 +140,7 @@ function App() {
               {/* Catch-all route - redirect to home */}
               <Route path="*" element={<HomePage />} />
               <Route path="/bundles" element={<BundlePage />} />
+              <Route path="/bundles/:bundleId" element={<BundleDetail />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/getStarted" element={<BookingStepper />} />
               <Route

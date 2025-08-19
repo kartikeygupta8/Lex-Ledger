@@ -71,7 +71,7 @@ const Navbar = () => {
         }`}
       >
         <div className={`${
-          isDashboardRoute ? "max-w-7xl" : "max-w-6xl"
+          isDashboardRoute ? "max-w-8xl" : "max-w-6xl"
         } mx-auto px-6 transition-all duration-500 ${
           isScrolled ? "py-4" : "py-4"
         }`}>

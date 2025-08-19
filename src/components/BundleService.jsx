@@ -1,10 +1,68 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Package,
+  TrendingUp,
+  Crown,
+  FileText,
+  Shield,
+  Zap,
+  Award
+,
+Star,
+Calendar,
+IndianRupee,
+ArrowRight,
+Clock,
+Users,
+Sparkles,
+CheckCircle,
+ChevronDown,
+ChevronUp
+} from "lucide-react";
+
+import { 
+  faPlus,
+  faCheckCircle,
+  faStar,
+  faClock,
+  faUsers,
+  faShield,
+  faArrowRight,
+  faArrowLeft,
+  faPhone,
+  faEnvelope,
+  faMapMarkerAlt,
+  faAward,
+  faRocket,
+  faBuilding,
+  faFileText,
+  faCalculator,
+  faGavel,
+  faGlobe,
+  faBookOpen,
+  faZap,
+  faIndianRupee,
+  faCalendar,
+  faFileAlt,
+  faHeadphones,
+  faCheck,
+  faTimes,
+  faChevronDown,
+  faChevronUp,
+  faPlay,
+  faMagicWandSparkles,
+  faCrown,
+  faArrowTrendUp,
+  // faTrendingUp,
+  faBox} from "@fortawesome/free-solid-svg-icons";
+
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Separator } from '@/components/ui/separator.jsx'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible.jsx'
-import { Clock, FileText, IndianRupee, CheckCircle, Calendar, Users, Shield, Award, ChevronDown, ChevronUp, Phone, Mail, MapPin, Star, ArrowRight, Play, Package, Zap, Crown, TrendingUp, Sparkles } from 'lucide-react'
 import HorizontalSlider from './HorizontalSlider'
 
 function BundleService() {
@@ -262,252 +320,88 @@ function BundleService() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
      
 
-      {/* Bundle Selection */}
-      <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-blue-600 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-600 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-600 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Choose Your Perfect Bundle
-            </div>
-            <h2 className="text-4xl font-bold  mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Business Bundle Selection
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the perfect bundle tailored to your business needs with transparent pricing and comprehensive features.
-            </p>
-          </div>
-          
-          <div className="">
-             <HorizontalSlider
-            items={bundles}
-            slidesPerView={3}
-            renderCard={(bundle) => {
-              const Icon = bundleIcons[bundle.id] || Package
-              const isSelected = selectedBundle === bundle.id
-              
-              return (
-                <div
-                  key={bundle.id}
-                  onClick={() => setSelectedBundle(bundle.id)}
-                  className={`relative cursor-pointer group transition-all duration-500 transform hover:-translate-y-2
-                   hover:scale-102
-                  `}
-                >
-                  {/* Card */}
-                  <div className={`relative p-8 rounded-2xl border-2  h-full
-                    ${false
-                      ? 'border-blue-300 bg-white/80 shadow-2xl '
-                      : 'border-blue-300 bg-white/80 backdrop-blur-sm hover:border-blue-300 hover:shadow-xl hover:bg-white'}
-                  `}>
-                    
-                    {/* Popular Badge */}
-                    {/* {bundle.popular && (
-                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
-                          ⭐ Most Popular
-                        </div>
-                      </div>
-                    )} */}
-                    
-                    {/* Selection Indicator */}
-                    {/* {isSelected && (
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-                        <CheckCircle className="w-5 h-5 text-white" />
-                      </div>
-                    )} */}
-                    
-                    {/* Icon */}
-                    <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 mx-auto transition-all duration-500
-                      ${isSelected
-                        ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white shadow-xl transform'
-                        : 'bg-gradient-to-br from-blue-100 to-purple-100 text-blue-600 group-hover:from-blue-200 group-hover:to-purple-200 group-hover:scale-110'}
-                    `}>
-                      <Icon className="w-10 h-10" />
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="text-center">
-                      <h3 className={`text-xl font-bold mb-3 transition-colors duration-300
-                        ${isSelected ? 'text-gray-900' : 'text-gray-800 group-hover:text-blue-600'}
-                      `}>
-                        {bundle.name}
-                      </h3>
-                      
-                      {/* Pricing */}
-                      <div className="mb-4">
-                        <div className={`text-3xl font-bold transition-colors duration-300
-                          ${isSelected ? 'text-blue-600' : 'text-gray-900 group-hover:text-blue-600'}
-                        `}>
-                          {bundle.price}
-                        </div>
-                        {bundle.originalPrice && (
-                          <div className="flex items-center justify-center space-x-2 mt-1">
-                            <span className="text-lg text-gray-500 line-through">{bundle.originalPrice}</span>
-                            <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
-                              Save {bundle.savings}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      
-                      {/* Duration */}
-                      <div className="flex items-center justify-center space-x-2 text-gray-600 mb-4">
-                        <Clock className="w-4 h-4" />
-                        <span className="text-sm font-medium">{bundle.duration}</span>
-                      </div>
-                      
-                      {/* Features Preview */}
-                      <div className="text-left">
-                        <div className="text-sm font-semibold text-gray-700 mb-2">Key Features:</div>
-                        <ul className="space-y-1">
-                          {bundle.features.slice(0, 3).map((feature, index) => (
-                            <li key={index} className="flex items-center text-sm text-gray-600">
-                              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2 flex-shrink-0"></div>
-                              <span className="truncate">{feature}</span>
-                            </li>
-                          ))}
-                          {bundle.features.length > 3 && (
-                            <li className="text-sm text-blue-600 font-medium">
-                              +{bundle.features.length - 3} more features
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                    
-                    {/* Hover Overlay */}
-                    {/* <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none
-                      ${isSelected 
-                        ? 'bg-gradient-to-br from-blue-500/5 to-purple-500/5' 
-                        : 'bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5'}
-                    `}></div> */}
-                  </div>
-                  
-                  {/* Glow Effect for Selected */}
-                  {/* {isSelected && (
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-20 blur-xl -z-10 animate-pulse"></div>
-                  )} */}
-                </div>
-              )
-            }}
-          />
-           
-          </div>
-          
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/80 transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">100%</div>
-              <div className="text-sm text-gray-600">Compliance Guaranteed</div>
-            </div>
-            
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/80 transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Users className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">5000+</div>
-              <div className="text-sm text-gray-600">Happy Clients</div>
-            </div>
-            
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/80 transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Award className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">15+</div>
-              <div className="text-sm text-gray-600">Years Experience</div>
-            </div>
-            
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/80 transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Calendar className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">24/7</div>
-              <div className="text-sm text-gray-600">Support Available</div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 text-white">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-700 to-indigo-800 text-white">
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in-up">
-              <div className="flex items-center space-x-3 mb-4">
+            <div className="space-y-6">
+              <div className="flex items-center space-x-3">
                 {currentBundle.popular && (
-                  <Badge className="bg-orange-500/20 text-orange-100 border-orange-400">
+                  <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0">
+                    <FontAwesomeIcon icon={faStar} className="w-3 h-3 mr-1" />
                     Most Popular
                   </Badge>
                 )}
-                <Badge className="bg-blue-500/20 text-blue-100 border-blue-400">
+                <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
                   Business Bundle
                 </Badge>
               </div>
-              <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+              
+              <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
                 {currentBundle.name}
               </h1>
-              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+              
+              <p className="text-lg text-blue-100 leading-relaxed">
                 {currentBundle.description}
               </p>
-              <div className="flex flex-wrap gap-4 mb-8">
-                <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm">
-                  <IndianRupee className="w-5 h-5" />
-                  <span className="font-semibold">{currentBundle.price}</span>
+              
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center space-x-2 bg-white/15 rounded-xl px-6 py-3 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300">
+                  <FontAwesomeIcon icon={faIndianRupee} className="w-5 h-5" />
+                  <span className="font-bold text-lg">{currentBundle.price}</span>
                   <span className="text-sm line-through text-blue-200">{currentBundle.originalPrice}</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm">
-                  <Clock className="w-5 h-5" />
-                  <span className="font-semibold">{currentBundle.duration}</span>
+                <div className="flex items-center space-x-2 bg-white/15 rounded-xl px-6 py-3 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300">
+                  <FontAwesomeIcon icon={faClock} className="w-5 h-5" />
+                  <span className="font-bold">{currentBundle.duration}</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-green-500/20 rounded-lg px-4 py-2 backdrop-blur-sm">
-                  <Sparkles className="w-5 h-5" />
-                  <span className="font-semibold">Save {currentBundle.savings}</span>
+                <div className="flex items-center space-x-2 bg-gradient-to-r from-green-500/30 to-emerald-500/30 rounded-xl px-6 py-3 backdrop-blur-sm border border-green-400/30 hover:bg-green-500/40 transition-all duration-300">
+                  <FontAwesomeIcon icon={faMagicWandSparkles} className="w-5 h-5" />
+                  <span className="font-bold">Save {currentBundle.savings}</span>
                 </div>
-              </div>
+                </div>
+              
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 group">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-blue-600 hover:bg-blue-50 group h-12 px-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                >
                   Get Started Today
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                {/* <Button size="lg" variant="outline" className="border-white text-blue-600 hover:bg-white hover:text-blue-600 group">
-                  <Play className="w-4 h-4 mr-2" />
-                  Learn More
-                </Button> */}
               </div>
             </div>
-            <div className="hidden lg:block animate-fade-in-right">
-              <div className="relative">
-                <div className="w-full h-80 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 p-8 hover:bg-white/15 transition-all duration-300">
-                  <div className="flex items-center space-x-3 mb-6">
-                    <BundleIcon className="w-8 h-8 text-white" />
-                    <h3 className="text-xl font-semibold">Bundle Highlights</h3>
+            
+            <div className="hidden lg:block">
+              <div className="w-full h-80 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 p-6 hover:bg-white/15 transition-all duration-300 shadow-xl">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg flex items-center justify-center">
+                    <FontAwesomeIcon icon={faBox} className="w-5 h-5 text-white" />
                   </div>
-                  <ul className="space-y-3">
-                    {currentBundle.features.slice(0, 5).map((feature, index) => (
-                      <li key={index} className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-300 flex-shrink-0" />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                    {currentBundle.features.length > 5 && (
-                      <li className="text-sm text-blue-200 italic">
-                        +{currentBundle.features.length - 5} more features...
-                      </li>
-                    )}
-                  </ul>
+                  <h3 className="text-xl font-semibold">Bundle Highlights</h3>
                 </div>
+                <ul className="space-y-3">
+                  {currentBundle.features.slice(0, 5).map((feature, index) => (
+                    <li key={index} className="flex items-center space-x-3">
+                      <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center flex-shrink-0">
+                        <FontAwesomeIcon icon={faCheck} className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="text-sm font-medium">{feature}</span>
+                    </li>
+                  ))}
+                  {currentBundle.features.length > 5 && (
+                    <li className="text-sm text-blue-200 italic flex items-center space-x-3">
+                      <div className="w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center flex-shrink-0">
+                        <FontAwesomeIcon icon={faPlus} className="w-3 h-3 text-white" />
+                      </div>
+                      <span>+{currentBundle.features.length - 5} more features...</span>
+                    </li>
+                  )}
+                </ul>
               </div>
             </div>
           </div>
@@ -515,36 +409,47 @@ function BundleService() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-gradient-to-br from-white via-blue-50 to-indigo-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Our Bundles?</h2>
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 rounded-full text-sm font-medium mb-4">
+              <FontAwesomeIcon icon={faAward} className="w-4 h-4 mr-2" />
+              Why Choose Our Bundles?
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Professional Excellence
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Comprehensive business solutions designed to save you time, money, and ensure complete compliance.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <Card 
-                key={index} 
-                className={`text-center hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 ${
-                  hoveredFeature === index ? 'ring-2 ring-blue-500' : ''
-                }`}
+                key={index}
+                className="text-center border-0 bg-white/80 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all duration-300 cursor-pointer group"
                 onMouseEnter={() => setHoveredFeature(index)}
                 onMouseLeave={() => setHoveredFeature(null)}
               >
-                <CardHeader>
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 transition-all duration-300 ${
-                    hoveredFeature === index ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-110' : 'bg-blue-100'
+                <CardHeader className="pb-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 ${
+                    hoveredFeature === index 
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
+                      : 'bg-gradient-to-r from-blue-100 to-purple-100'
                   }`}>
                     <feature.icon className={`w-6 h-6 transition-colors duration-300 ${
                       hoveredFeature === index ? 'text-white' : 'text-blue-600'
                     }`} />
                   </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  <CardTitle className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                    {feature.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <p className="text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -552,33 +457,7 @@ function BundleService() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
-            <p className="text-lg text-gray-600">Trusted by thousands of businesses across India</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="pt-6">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">"{testimonial.content}"</p>
-                  <div>
-                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                    <p className="text-sm text-gray-500">{testimonial.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+     
 
       {/* Main Content */}
       <section className="py-16 bg-white">
@@ -795,26 +674,299 @@ function BundleService() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your Business Journey?</h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Choose {currentBundle.name} and save {currentBundle.savings} while getting everything you need.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 group">
-              Get {currentBundle.name}
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-blue-600 hover:bg-white hover:text-blue-600">
-              Compare All Bundles
-            </Button>
-          </div>
+      {/* Enhanced Interactive CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-700 to-indigo-800 text-white relative overflow-hidden">
+        {/* Interactive Background Elements */}
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        
+        {/* Floating Elements */}
+        <motion.div
+          className="absolute top-10 left-10 w-6 h-6 bg-white/10 rounded-full"
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 20, 0],
+            opacity: [0.1, 0.4, 0.1]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-4 h-4 bg-white/15 rounded-full"
+          animate={{
+            y: [0, -20, 0],
+            x: [0, -15, 0],
+            opacity: [0.2, 0.5, 0.2]
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-8"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm font-medium mb-6 shadow-lg border border-white/30"
+            >
+              <FontAwesomeIcon icon={faRocket} className="w-4 h-4 mr-2" />
+              Ready to Launch Your Business?
+            </motion.div>
+          </motion.div>
+          
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-4xl lg:text-5xl font-bold mb-6"
+          >
+            Ready to Start Your Business Journey?
+          </motion.h2>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto leading-relaxed"
+          >
+            Choose <span className="font-semibold text-white">{currentBundle.name}</span> and save <span className="font-semibold text-green-300">{currentBundle.savings}</span> while getting everything you need for success.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center"
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-600 hover:bg-blue-50 group h-14 px-8 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+              >
+                Get {currentBundle.name}
+                <FontAwesomeIcon icon={faArrowRight} className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-blue-600 hover:bg-white hover:text-blue-600 h-14 px-8 text-lg font-semibold backdrop-blur-sm transition-all duration-300"
+              >
+                <FontAwesomeIcon icon={faShield} className="w-5 h-5 mr-2" />
+                Compare All Bundles
+              </Button>
+            </motion.div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="mt-12 pt-8 border-t border-white/20"
+          >
+            <div className="flex items-center justify-center space-x-8 text-sm text-blue-200">
+              <div className="flex items-center space-x-2">
+                <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-400" />
+                <span>No Hidden Fees</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-400" />
+                <span>100% Satisfaction</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-400" />
+                <span>24/7 Support</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-   
+      {/* Stats Section - Moved to Bottom */}
+      <section className="py-16 bg-gradient-to-r from-slate-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Lex&Ledger?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Trusted by thousands of businesses across India with proven results and exceptional service.
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          >
+            {[
+              { icon: faShield, value: "100%", label: "Compliance Guaranteed", color: "from-blue-600 to-purple-600" },
+              { icon: faUsers, value: "5000+", label: "Happy Clients", color: "from-green-600 to-emerald-600" },
+              { icon: faAward, value: "15+", label: "Years Experience", color: "from-orange-600 to-red-600" },
+              { icon: faClock, value: "24/7", label: "Support Available", color: "from-purple-600 to-pink-600" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+                className="text-center p-8 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/30 hover:bg-white hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+              >
+                <motion.div 
+                  className={`w-16 h-16 bg-gradient-to-r ${stat.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300`}
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <FontAwesomeIcon icon={stat.icon} className="w-8 h-8 text-white" />
+                </motion.div>
+                <div className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{stat.value}</div>
+                <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+    {/* Enhanced Interactive Testimonials Section */}
+    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-600 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-800 rounded-full text-sm font-medium mb-6 shadow-lg"
+            >
+              <FontAwesomeIcon icon={faStar} className="w-4 h-4 mr-2" />
+              Client Success Stories
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-4xl font-bold text-gray-900 mb-6"
+            >
+              What Our Clients Say
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            >
+              Trusted by thousands of businesses across India with proven results and exceptional service delivery.
+            </motion.p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -10,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Card className="h-full border-0 bg-white/80 backdrop-blur-sm hover:bg-white hover:shadow-2xl transition-all duration-500 cursor-pointer group">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-500 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                  
+                  <CardContent className="pt-8 pb-6">
+                    <motion.div 
+                      className="flex items-center mb-6"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                    >
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ scale: 0, rotate: -180 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          transition={{ duration: 0.5, delay: 1.4 + index * 0.1 + i * 0.1 }}
+                        >
+                          <FontAwesomeIcon icon={faStar} className="w-5 h-5 text-yellow-400 fill-current" />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                    
+                    <motion.p 
+                      className="text-gray-600 mb-6 italic leading-relaxed group-hover:text-gray-700 transition-colors duration-300"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.6 + index * 0.1 }}
+                    >
+                      "{testimonial.content}"
+                    </motion.p>
+                    
+                    <motion.div 
+                      className="flex items-center space-x-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.8 + index * 0.1 }}
+                    >
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        {testimonial.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-gray-500">{testimonial.role}</p>
+                      </div>
+                    </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

@@ -95,6 +95,7 @@ const founders = [
 
 // Booking Modal Component
 const BookingModal = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -104,6 +105,18 @@ const BookingModal = ({ isOpen, onClose }) => {
     service: "",
     message: "",
   });
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedService, setSelectedService] = useState("");
+
+  // Get all services from all categories
+  const allServices = serviceCategories.flatMap((category) =>
+    category.services.map((service) => ({
+      ...service,
+      categoryId: category.id,
+      categoryTitle: category.title,
+      categoryColor: category.color,
+    }))
+  );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -113,9 +126,39 @@ const BookingModal = ({ isOpen, onClose }) => {
     }));
   };
 
+  const handleCategoryChange = (e) => {
+    const categoryId = e.target.value;
+    setSelectedCategory(categoryId);
+    setSelectedService("");
+    setFormData(prev => ({
+      ...prev,
+      service: ""
+    }));
+  };
+
+  const handleServiceChange = (e) => {
+    const serviceId = e.target.value;
+    setSelectedService(serviceId);
+    setFormData(prev => ({
+      ...prev,
+      service: serviceId
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Booking submitted:", formData);
+    
+    // Store selected service data in session storage
+    if (selectedService) {
+      const service = allServices.find(s => s.id.toString() === selectedService);
+      if (service) {
+        sessionStorage.setItem("serviceId", service.id);
+        sessionStorage.setItem("serviceCategoryId", service.categoryId);
+        sessionStorage.setItem("bookingStep", "3");
+      }
+    }
+    
     alert("Your booking request has been submitted! We will contact you soon to confirm.");
     onClose();
     setFormData({
@@ -127,16 +170,30 @@ const BookingModal = ({ isOpen, onClose }) => {
       service: "",
       message: "",
     });
+    setSelectedCategory("");
+    setSelectedService("");
+    
+    // Navigate to getStarted with the selected service
+    if (selectedService) {
+      const service = allServices.find(s => s.id.toString() === selectedService);
+      if (service) {
+        navigate(`/getStarted/${service.categoryId}`);
+      } else {
+        navigate("/getStarted");
+      }
+    } else {
+      navigate("/getStarted");
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 backdrop-blur-sm bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Book a Call</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Book a Service</h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -146,52 +203,54 @@ const BookingModal = ({ isOpen, onClose }) => {
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your full name"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter your full name"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter your email"
+                />
+              </div>
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your email"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number *
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your phone number"
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+              
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Preferred Date *
@@ -202,51 +261,71 @@ const BookingModal = ({ isOpen, onClose }) => {
                   value={formData.date}
                   onChange={handleInputChange}
                   required
-                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Preferred Time *
+                </label>
+                <input
+                  type="time"
+                  name="time"
+                  value={formData.time}
+                  onChange={handleInputChange}
+                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Preferred Time *
+                  Service Category
                 </label>
                 <select
-                  name="time"
-                  value={formData.time}
-                  onChange={handleInputChange}
-                  required
+                  value={selectedCategory}
+                  onChange={handleCategoryChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Select time</option>
-                  <option value="09:00">09:00 AM</option>
-                  <option value="10:00">10:00 AM</option>
-                  <option value="11:00">11:00 AM</option>
-                  <option value="12:00">12:00 PM</option>
-                  <option value="14:00">02:00 PM</option>
-                  <option value="15:00">03:00 PM</option>
-                  <option value="16:00">04:00 PM</option>
-                  <option value="17:00">05:00 PM</option>
+                  <option value="">Select a category</option>
+                  {serviceCategories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.title}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Service Required
+                Select Service *
               </label>
               <select
-                name="service"
-                value={formData.service}
-                onChange={handleInputChange}
+                value={selectedService}
+                onChange={handleServiceChange}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select a service</option>
-                <option value="company-formation">Company Formation</option>
-                <option value="tax-services">Tax Services</option>
-                <option value="legal-consultation">Legal Consultation</option>
-                <option value="compliance">Compliance Services</option>
-                <option value="other">Other</option>
+                {selectedCategory ? (
+                  serviceCategories
+                    .find(cat => cat.id === selectedCategory)
+                    ?.services.map((service) => (
+                      <option key={service.id} value={service.id}>
+                        {service.name} - {service.price}
+                      </option>
+                    ))
+                ) : (
+                  allServices.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.categoryTitle} - {service.name} - {service.price}
+                    </option>
+                  ))
+                )}
               </select>
             </div>
             
@@ -277,7 +356,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                 type="submit"
                 className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
-                Book Call
+                Book Service
               </Button>
             </div>
           </form>
@@ -724,8 +803,33 @@ const HomePage = () => {
         </div>
       </section>
 
+      <section id="blog" className="py-24">
+        <EnhancedBlogPage />
+      </section>
+      {/* FAQ Section with Toggle Functionality */}
+      <section className="py-24 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-gray-600">
+              Find answers to common questions about our services and processes.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <FAQItem key={index} faq={faq} index={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Founders Section */}
+      <FoundersSection founders={founders} />
+
       {/* Testimonials */}
-      <section className="py-24">
+      <section className="py-24 bg-gradient-to-r from-gray-50 to-blue-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -769,30 +873,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <section id="blog" className="py-24">
-        <EnhancedBlogPage />
-      </section>
-      {/* FAQ Section with Toggle Functionality */}
-      <section className="py-24 bg-gradient-to-r from-gray-50 to-blue-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-gray-600">
-              Find answers to common questions about our services and processes.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <FAQItem key={index} faq={faq} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-      {/* Founders Section */}
-      <FoundersSection founders={founders} />
 
       {/* Contact Form */}
       <ContactForm onSubmit={handleContactSubmit} />
