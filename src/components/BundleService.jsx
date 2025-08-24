@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Package,
@@ -70,7 +71,7 @@ function BundleService() {
   const [selectedTab, setSelectedTab] = useState('overview')
   const [openFAQ, setOpenFAQ] = useState(null)
   const [hoveredFeature, setHoveredFeature] = useState(null)
-
+  const navigate = useNavigate();
   const bundles = [
     {
       id: 1,
@@ -368,6 +369,7 @@ function BundleService() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
+                  onClick={() => navigate("/signup")}
                   className="bg-white text-blue-600 hover:bg-blue-50 group h-12 px-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   Get Started Today
@@ -557,7 +559,7 @@ function BundleService() {
                 <CardContent>
                   <div className="space-y-4">
                     {currentBundle.includes.map((item, index) => (
-                      <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group">
+                      <div key={index} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group">
                         <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:bg-gradient-to-r from-green-600 to-blue-600 transition-colors">
                           <span className="text-green-600 font-semibold text-sm group-hover:text-white">{index + 1}</span>
                         </div>

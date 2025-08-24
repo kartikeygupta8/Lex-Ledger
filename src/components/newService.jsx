@@ -344,7 +344,7 @@ const suffix = originalPriceStr?originalPriceStr.includes("/month") ? "/month" :
                   <ArrowLeft className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   Back to Detail
                 </Button>
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 group cursor-pointer" onClick={()=>isLoggedIn?navigate(`/dashboard`):navigate(`/login`)}>
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 group cursor-pointer" onClick={()=>isLoggedIn?navigate(`/getStarted/company`):navigate(`/login`)}>
                   Book Now
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>

@@ -89,12 +89,17 @@ const ServicesPage = () => {
   });
 
   const handleServiceClick = (service) => {
+     navigate(`/getStarted/${service.categoryId}`, {
+        state: { selectedServiceId: service.id },
+      });
+      return;
     if (searchTerm.length > 0) {
       navigate(`/getStarted/${service.categoryId}`, {
         state: { selectedServiceId: service.id },
       });
       return;
     }
+    console.log({service})
     navigate(`/services/${service.categoryId}`, {
       state: { selectedServiceId: service.id },
     });

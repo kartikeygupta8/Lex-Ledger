@@ -43,7 +43,6 @@ const BookingPage = () => {
 
   const handleBackToHome = () => navigate("/");
   const handleBackToCategory = () => navigate("/services");
-console.log({selectedService},"selectedServiceselectedService")
   return (
     <BookingComponent
       selectedService={selectedService}

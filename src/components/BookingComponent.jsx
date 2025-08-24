@@ -283,7 +283,11 @@ console.log({selectedService})
                         What's Included:
                       </h4>
                        <Button
-                                        onClick={()=>navigate(`/service-detail/${selectedService.id}/${routeCategoryId}`)}
+                                        onClick={()=>{
+                                          if(selectedService.id){
+
+                                            navigate(`/service-detail/${selectedService.id}/${routeCategoryId}`)}}
+                                          }
                                         className="bg-blue-600 cursor-pointer hover:bg-blue-700 px-2 py-1 rounded-sm font-bold shadow-lg transition-transform hover:scale-105"
                                       >
                                         Go to Service Detail

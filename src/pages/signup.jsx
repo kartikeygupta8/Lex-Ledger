@@ -78,15 +78,16 @@ const navigate=useNavigate()
         padding: 2,
       }}
     >
-      <Container maxWidth="md">
+      <Container className="!max-w-[767px]">
         <Paper elevation={6} sx={{ borderRadius: 4 }}>
           <Grid container spacing={0}>
             <Grid
               item
               xs={12}
-              md={5}
+              md={6}
+              className="bg-gradient-to-r from-blue-600 to-indigo-700"
               sx={{
-                background: "#0b0e2a",
+                // background: "#0b0e2a",
                 color: "white",
                 padding: 4,
                 display: "flex",
@@ -107,7 +108,7 @@ const navigate=useNavigate()
               </Typography>
             </Grid>
 
-            <Grid item xs={12} md={7} sx={{ padding: 4 }}>
+            <Grid item xs={12} md={6} sx={{ padding: 4 }}>
               <Typography variant="h4" fontWeight="bold" color="#333" gutterBottom>
                 Create Account
               </Typography>
