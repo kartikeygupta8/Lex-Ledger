@@ -3,7 +3,7 @@ import { useState ,useEffect} from 'react'
 import '../App'
 import { useNavigate, useParams } from 'react-router-dom';
 import { serviceCategories } from '@/static/service-data';
-import { Clock, FileText, IndianRupee, CheckCircle, Calendar, Users, Shield, Award, ChevronDown, ChevronUp, Phone, Mail, MapPin, Star, ArrowRight, Play, ArrowLeft } from 'lucide-react'
+import { Clock, FileText, IndianRupee, CheckCircle, Calendar, Users, Shield, Award, ChevronDown, ChevronUp, Star, ArrowRight, ArrowLeft } from 'lucide-react'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -11,11 +11,12 @@ import { Separator } from '@/components/ui/separator.jsx'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible.jsx'
 
 export function ServiceDetailPage() {
-  const [activeAccordion, setActiveAccordion] = useState(null)
-  const [serviceData, setSelectedService] = useState(null);
+  const { categoryId } = useParams(); 
+    const [serviceData, setSelectedService] = useState(null);
     const { serviceId: routeServiceId } = useParams();
   const { categoryId: routeCategoryId } = useParams();
   const [selectedTab, setSelectedTab] = useState('overview');
+
     const [openFAQ, setOpenFAQ] = useState(null);
       const [hoveredFeature, setHoveredFeature] = useState(null);
        const features = [
@@ -24,7 +25,6 @@ export function ServiceDetailPage() {
     { icon: Users, title: "Dedicated Support", description: "Personal tax advisor throughout the process" },
     { icon: Calendar, title: "Timely Delivery", description: "Complete service within promised timeframe" }
   ]
-
   const timeline = [
     {
       day: "Day 1",
@@ -122,16 +122,13 @@ export function ServiceDetailPage() {
   
       if (routeServiceId) {
         const category = serviceCategories.find(cat => cat.id === routeCategoryId);
-        const selectedService=category.services.find((ser)=>ser.id.toString()===serviceId.toString());
+        const selectedService=category.services.find((ser)=>ser.id.toString()===routeServiceId.toString());
         if (category && category.services.length > 0) {
           setSelectedService({...selectedService,categoryTitle:category.title}); 
-              window.scrollTo({ top: 0, behavior: "smooth" });
-  
+           window.scrollTo({ top: 0, behavior: "smooth" });
         }
         return; 
       }
-  
-      // Normal booking session logic
   
       if (serviceId && categoryId) {
         const category = serviceCategories.find(cat => cat.id === categoryId);
@@ -168,144 +165,20 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
 const originalPriceStr = serviceData?.price||""; 
 const originalPrice = parsePrice(originalPriceStr); 
 const discountAmount = Math.round(originalPrice * 0.24); 
-const finalPrice = originalPrice - discountAmount;
 const navigate=useNavigate();
+const handleBookNow = () => {
+  navigate(`/getStarted/${categoryId}`,
+    {
+      state: {
+        selectedServiceId: serviceData.id
+      }
+    }
+  );
+};
 useEffect(() => {
   setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
 }, [location.pathname]);
-const formatRupees = (amount) => {
-  try {
-    if (amount === null || amount === undefined) {
-      throw new Error("Amount is null or undefined");
-    }
 
-    const num = Number(amount);
-
-    if (isNaN(num)) {
-      throw new TypeError("Amount must be a valid number or numeric string");
-    }
-
-    return "₹" + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  } catch (error) {
-    console.error(`formatRupees error: ${error.message}`);
-    return null;
-  }
-};
-
-const suffix = originalPriceStr?originalPriceStr.includes("/month") ? "/month" : "":"";
-
-  const keyFeatures = [
-    {
-      number: 1,
-      title: "Name Reservation",
-      description: "Secure your preferred company name with official reservation"
-    },
-    {
-      number: 2,
-      title: "Legal Documentation",
-      description: "Complete preparation of MOA, AOA, and other legal documents"
-    },
-    {
-      number: 3,
-      title: "Government Filing",
-      description: "Submit applications to ROC and handle all government procedures"
-    },
-    {
-      number: 4,
-      title: "Certificate Delivery",
-      description: "Receive your Certificate of Incorporation and other documents"
-    }
-  ]
-
-  const processSteps = [
-    {
-      number: 1,
-      title: "Initial Consultation",
-      description: "Discuss your business requirements and choose the right company structure (Private Limited, LLP, etc.)"
-    },
-    {
-      number: 2,
-      title: "Name Approval",
-      description: "Submit name application to MCA and get approval for your preferred company name"
-    },
-    {
-      number: 3,
-      title: "Document Preparation",
-      description: "Prepare and draft all required legal documents including MOA, AOA, and board resolutions"
-    },
-    {
-      number: 4,
-      title: "Digital Signature",
-      description: "Obtain Digital Signature Certificate (DSC) for directors and complete DIN applications"
-    },
-    {
-      number: 5,
-      title: "Government Filing",
-      description: "File incorporation documents with ROC and track application status"
-    },
-    {
-      number: 6,
-      title: "Certificate & Compliance",
-      description: "Receive Certificate of Incorporation and set up initial compliance requirements"
-    }
-  ]
-
-  // const timeline = [
-  //   {
-  //     number: 1,
-  //     title: "Name Reservation",
-  //     duration: "1-2 business days"
-  //   },
-  //   {
-  //     number: 2,
-  //     title: "Document Preparation",
-  //     duration: "2-3 business days"
-  //   },
-  //   {
-  //     number: 3,
-  //     title: "DSC & DIN Processing",
-  //     duration: "3-5 business days"
-  //   },
-  //   {
-  //     number: 4,
-  //     title: "Government Filing & Approval",
-  //     duration: "7-10 business days"
-  //   },
-  //   {
-  //     number: "✓",
-  //     title: "Total Duration",
-  //     duration: "15-20 business days"
-  //   }
-  // ]
-
-  const eligibilityItems = [
-    "Indian Citizens: Any Indian citizen above 18 years of age can be a director",
-    "Foreign Nationals: Foreign citizens can be directors with proper documentation",
-    "Minimum Directors: At least 2 directors required for Private Limited Company",
-    "Minimum Shareholders: At least 2 shareholders required (can be same as directors)",
-    "Minimum Capital: No minimum paid-up capital requirement",
-    "Registered Office: Must have a registered office address in India",
-    "Business Activity: Must have a legitimate business purpose and activity"
-  ]
-
-  const faqItems = [
-    {
-      question: "What is the difference between Private Limited and Public Limited Company?",
-      answer: "A Private Limited Company has restrictions on share transfer and cannot invite public to subscribe to its shares. It requires minimum 2 and maximum 200 shareholders. A Public Limited Company can invite public to subscribe to its shares and has no restriction on share transfer, requiring minimum 7 shareholders."
-    },
-    {
-      question: "Can I start a company with just one director?",
-      answer: "No, a Private Limited Company requires minimum 2 directors. However, you can start a One Person Company (OPC) with just one director, which is a special category under the Companies Act."
-    },
-    {
-      question: "What happens if my company name is rejected?",
-      answer: "If your preferred name is rejected, we will suggest alternative names and help you choose a suitable one. We typically suggest 3-4 alternative names during the initial consultation to avoid delays."
-    }
-  ]
-
-  const toggleAccordion = (index) => {
-    setActiveAccordion(activeAccordion === index ? null : index)
-  }
   if(!serviceData){
     return null
   }
@@ -339,12 +212,15 @@ const suffix = originalPriceStr?originalPriceStr.includes("/month") ? "/month" :
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                 <Button size="lg" className="bg-white cursor-pointer text-blue-600 hover:bg-blue-50 group" onClick={()=>navigate(-1)}>
+                 {/* <Button size="lg" className="bg-white cursor-pointer text-blue-600 hover:bg-blue-50 group" onClick={()=>navigate(-1)}>
                   
                   <ArrowLeft className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   Back to Detail
-                </Button>
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 group cursor-pointer" onClick={()=>isLoggedIn?navigate(`/getStarted/company`):navigate(`/login`)}>
+                </Button> */}
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 group cursor-pointer" 
+                // onClick={()=>isLoggedIn?navigate(`/getStarted/company`):navigate(`/login`)}
+                onClick={handleBookNow}
+                >
                   Book Now
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -493,7 +369,7 @@ const suffix = originalPriceStr?originalPriceStr.includes("/month") ? "/month" :
                       </div>
                       <div className="text-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
                         <FileText className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                        <div className="font-semibold text-lg">{serviceData.documents.length}</div>
+                        <div className="font-semibold text-lg">{serviceData.documents?.length||0}</div>
                         <div className="text-sm text-gray-600">Documents Required</div>
                       </div>
                     </div>

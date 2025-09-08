@@ -147,7 +147,6 @@ const BookingModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Booking submitted:", formData);
     
     // Store selected service data in session storage
     if (selectedService) {
@@ -415,7 +414,6 @@ const HomePage = () => {
   };
   
   const handleContactSubmit = (formData) => {
-    console.log("Contact form submitted:", formData);
     // Handle form submission logic here
     alert("Thank you for your message! We will get back to you soon.");
   };

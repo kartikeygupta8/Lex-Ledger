@@ -58,7 +58,7 @@ const ServicesPage = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [isCategoryVisible, setIsCategoryVisible] = useState(true);
+  const [isCategoryVisible, setIsCategoryVisible] = useState(false);
   const [manuallyToggled, setManuallyToggled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -89,20 +89,18 @@ const ServicesPage = () => {
   });
 
   const handleServiceClick = (service) => {
-     navigate(`/getStarted/${service.categoryId}`, {
-        state: { selectedServiceId: service.id },
-      });
+   
+        navigate(`/service-detail/${service.id}/${service.categoryId}`)
       return;
-    if (searchTerm.length > 0) {
-      navigate(`/getStarted/${service.categoryId}`, {
-        state: { selectedServiceId: service.id },
-      });
-      return;
-    }
-    console.log({service})
-    navigate(`/services/${service.categoryId}`, {
-      state: { selectedServiceId: service.id },
-    });
+    // if (searchTerm.length > 0) {
+    //   navigate(`/getStarted/${service.categoryId}`, {
+    //     state: { selectedServiceId: service.id },
+    //   });
+    //   return;
+    // }
+    // navigate(`/services/${service.categoryId}`, {
+    //   state: { selectedServiceId: service.id },
+    // });
   };
 
   const handleCategoryClick = (categoryId) => {

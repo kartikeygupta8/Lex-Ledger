@@ -275,7 +275,6 @@ const MyChatBot = () => {
       ]
     }
   ];
-console.log({form},"===================form")
   const flow = {
     start: {
       message: "👋 Welcome to Lex&Ledger! Let's get started. What is your name?",
@@ -515,7 +514,6 @@ console.log({form},"===================form")
       message: "Great choice! Here are the Startup & Regulatory services. Click on any service to get started:",
       component: (params) => {
         const selectedCategory = serviceCategories.find(cat => cat.title === "Startup & Regulatory");
-        console.log({params})
         return (
           <div style={{ marginTop: 10, marginLeft: 20, maxWidth: 300 }}>
             {selectedCategory?.services.map((service, index) => (
